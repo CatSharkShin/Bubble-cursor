@@ -1,0 +1,19 @@
+body{
+	margin:0;
+}
+h1{
+	display: inline;
+}
+input{
+	margin: 5px;
+	margin-left: 0;
+}
+canvas{
+	display: block;
+	margin: 0;
+	position: absolute;
+	z-index: -1;
+}
+#colorvar{
+	width: 80px;
+}
