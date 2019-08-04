@@ -1,18 +1,23 @@
+//Making the canvas, and resizing it to match the users screen
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var c = canvas.getContext('2d');
-var collb = 0;
-var lifetime = 2;
-var CircleArray = [];
-var xperc=1;
+
+
+var lifetime = 2;	//Max lifetime of the bubbles
+var CircleArray = [];	
+var xperc=1;	//Pre declaring so that its global | These are gonna be percentages generated from the X pos of the mouse
 var yperc=1;
+var bubblenum = 5;	//Number of bubbles per move
+var minrad = 2;
+var maxrad = 30;
 //Button Options
 var follow = 0;
 var whitestroke = 0;
 
 
-// Buttons
+// Button functions
 function ws(){
 	if(whitestroke == 0)whitestroke=1;
 	else whitestroke=0;
@@ -23,65 +28,65 @@ function foll(){
 	else follow=0;
 	console.log("F PUSHED");
 }
+function invertColor(hex) {
+    if (hex.indexOf('#') === 0) {
+        hex = hex.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) {
+        throw new Error('Invalid HEX color.');
+    }
+    // invert color components
+    var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+        g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+        b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+    // pad each with zeros and return
+    return '#' + padZero(r) + padZero(g) + padZero(b);
+}
+
+function padZero(str, len) {
+    len = len || 2;
+    var zeros = new Array(len).join('0');
+    return (zeros + str).slice(-len);
+}
 
 
-
-function Circle(x,y,dx,dy,radius,lt,maxlt){
-	this.x = x;
-	this.y = y;
+function Circle(x,y,dx,dy,radius,lt,maxlt){ // DX and DX are the steps the bubbles take
+	this.x = x;							
+	this.y = y;							
 	this.dx= dx;
 	this.dy= dy;
 	this.radius = radius;
-	this.lt = lt;
-	this.maxlt = maxlt;
+	this.lt = lt;	//the current lifetime
+	this.maxlt = maxlt; //the object's spawn lifetime
 	
 	this.getRadius = function(){
 		return this.radius;
 	}
 	
-	this.draw = function(){
+	this.draw = function(){		//Draws out the circle
 		c.beginPath();
 		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-		c.lineWidth = 2;/*
-		if(follow==1){
-			c.fillStyle = `rgba(200,${0+(250*xperc)},${0+(250*yperc)},${this.lt/this.maxlt})`;
-			//c.strokeStyle = `rgba(200,${0+(250*xperc)},${0+(250*yperc)},${this.lt/this.maxlt})`;
-			if(this.lt/this.maxlt < 0.99 && whitestroke==1){
-				c.strokeStyle = 'white';
-			}else{
-				c.strokeStyle = `rgba(200,${0+(250*xperc)},${0+(250*yperc)},${this.lt/this.maxlt})`;
-			}
-		}
-		else{
-			c.fillStyle = `rgba(200,${0+(250*this.x/window.innerWidth)},${0+(250*this.y/window.innerHeight)},${this.lt/this.maxlt})`;
-			//c.strokeStyle = `rgba(200,${0+(250*this.x/window.innerWidth)},${0+(250*this.y/window.innerHeight)},${this.lt/this.maxlt})`;	
+		c.lineWidth = 2;
 		
-			if(this.lt/this.maxlt < 0.99 && whitestroke==1){
-				c.strokeStyle = 'white';
-			}else{
-				c.strokeStyle = `rgba(200,${0+(250*this.x/window.innerWidth)},${0+(250*this.y/window.innerHeight)},${this.lt/this.maxlt})`;
-			}
-		}
-		c.stroke();
-		c.fill();*/
-		
-		var red = document.getElementById("rvar").value;
+		var red = document.getElementById("rvar").value;	//reading values from the inputs
 		var green = document.getElementById("gvar").value;
 		var blue = document.getElementById("bvar").value;
-		if(follow==1){
+		if(follow==1){	//Gets the color from the mouse's position
 			c.fillStyle = `rgba(${red},${green+((255-green)*xperc)},${blue+((255-blue)*yperc)},${this.lt/this.maxlt})`;
-			//c.strokeStyle = `rgba(200,${0+(250*xperc)},${0+(250*yperc)},${this.lt/this.maxlt})`;
-			if(this.lt/this.maxlt < 0.99 && whitestroke==1){
+			if(this.lt/this.maxlt < 0.99 && whitestroke==1){	//The top circle won't have a white outline
 				c.strokeStyle = 'white';
-			}else{
+			}else{											//The top circle's outline
 				c.strokeStyle = `rgba(${red},${green+((255-green)*xperc)},${blue+((255-blue)*yperc)},${this.lt/this.maxlt})`;
 			}
-		}
-		else{
+		}				
+		else{	//Gets the color from its position
 			c.fillStyle = `rgba(${red},${green+((255-green)*this.x/window.innerWidth)},${blue+((255-blue)*this.y/window.innerHeight)},${this.lt/this.maxlt})`;
-			//c.strokeStyle = `rgba(200,${0+(250*this.x/window.innerWidth)},${0+(250*this.y/window.innerHeight)},${this.lt/this.maxlt})`;	
 		
-			if(this.lt/this.maxlt < 0.99 && whitestroke==1){
+			if(this.lt/this.maxlt < 0.99 && whitestroke==1){	//The top circle won't have a white outline
 				c.strokeStyle = 'white';
 			}else{
 				c.strokeStyle = `rgba(${red},${green+((255-green)*this.x/window.innerWidth)},${blue+((255-blue)*this.y/window.innerHeight)},${this.lt/this.maxlt})`;
@@ -91,7 +96,7 @@ function Circle(x,y,dx,dy,radius,lt,maxlt){
 		c.fill();
 		
 	}
-	this.update = function(){
+	this.update = function(){	//Updates the circles' position and draws them
 			
 		if(this.lt >= 0){
 			
@@ -108,41 +113,48 @@ function Circle(x,y,dx,dy,radius,lt,maxlt){
 		}
 }
 
-function animate(){
+function animate(){		//Loop that updates and reads buttons
 	requestAnimationFrame(animate);
 	
 	c.clearRect(0,0,innerWidth,innerHeight);
-	for(var i=0;i < CircleArray.length; i++){
+	for(var i=0;i < CircleArray.length; i++){		//Update
 		CircleArray[i].update();
 	}
-	var el = document.getElementById('whitestroke');
+	var el = document.getElementById('whitestroke');	//White stroke button
 	if(el){
 		el.addEventListener('click', ws, false);
 	}
-	var el = document.getElementById('follow');
+	var el = document.getElementById('follow');			//Color fading button
 	if(el){
 		el.addEventListener('click', foll, false);
+	}
+	if(document.getElementById('bgcolor')){
+		document.body.style.backgroundColor = document.getElementById('bgcolor').value;
+		document.body.style.color = invertColor(document.getElementById('bgcolor').value);
 	}
 }
 
 
 
-window.addEventListener('mousemove', function(e){
-	for(var i=0;i<5;i++){
-var radius = (Math.random() * 20) + 2;
+window.addEventListener('mousemove', function(e){	//Creating a circle when the mouse moves
+if(document.getElementById('bubblenum'))
+	bubblenum = document.getElementById('bubblenum').value;		//Reading the number of bubbles to create
+if(document.getElementById('minrad'))
+	minrad = document.getElementById('minrad').value;
+if(document.getElementById('maxrad'))
+	maxrad = document.getElementById('maxrad').value;
+	for(var i=0;i<bubblenum;i++){
+var radius = Math.random() * (maxrad-minrad) + minrad;
 var x= Math.random() * (innerWidth - radius * 2 ) + radius;
 var y= Math.random() * (innerHeight - radius * 2 ) + radius;
 var dy= (Math.random() *10) - 5;
 var dx= (Math.random() *10) - 5;
 var lt= Math.random() * lifetime;
 var maxlt= lt;
-CircleArray.push(new Circle(e.x,e.y,dx,dy, radius, lt, maxlt));
-xperc = (e.x/window.innerWidth);
+CircleArray.push(new Circle(e.x,e.y,dx,dy, radius, lt, maxlt));		//Creating the circle
+xperc = (e.x/window.innerWidth);		//xperc and yperc are "percentages": 0 - 1(the maximum window height/width)
 yperc = (e.y/window.innerHeight);
 	}
-	/*
-c.fillStyle = `rgba(125,${0+(250*xperc)},${0+(250*yperc)},1)`;
-c.strokeStyle = `rgba(125,${0+(250*xperc)},${0+(250*yperc)},1)`;*/
 }
 );
 
@@ -156,61 +168,3 @@ function dcrlt(){
 		}catch{}
 	}
 }
-
-
-
-/*
-function animate(){
-	requestAnimationFrame(animate);
-	c.clearRect(0,0,innerWidth,innerHeight);
-	for(var i=0;i < CircleArray.length; i++){
-		CircleArray[i].update();
-		collision(i);
-	}
-}
-function collision(i){
-		for(var j= i+1;j<=CircleArray.length;j++){
-			try{
-				a = CircleArray[i].radius + CircleArray[j].radius;
-				x = CircleArray[i].x - CircleArray[j].x;
-				y = CircleArray[i].y - CircleArray[j].y;
-			if (a > Math.sqrt((x*x) + (y*y))){
-				
-				if(collb == 0){
-					console.log("COLLISION");
-					dx1 = CircleArray[i].dx;
-					dy1 = CircleArray[i].dy;
-					CircleArray[i].dx = CircleArray[j].dx;
-					CircleArray[i].dy = CircleArray[j].dy;
-					CircleArray[j].dx = dx1;
-					CircleArray[j].dy = dy1;
-				/*
-				dx1 = (CircleArray[i].dx *(CircleArray[i].radius - CircleArray[j].radius) + (2 * CircleArray[j].radius * CircleArray[j].dx) )/(CircleArray[i].radius+CircleArray[j].radius);
-				dy1 = (CircleArray[i].dy *(CircleArray[i].radius - CircleArray[j].radius) + (2 * CircleArray[j].radius * CircleArray[j].dy) )/(CircleArray[i].radius+CircleArray[j].radius);
-				CircleArray[i].dx = dx1;
-				CircleArray[i].dy = dy1;
-				dx2 = (CircleArray[j].dx *(CircleArray[j].radius - CircleArray[i].radius) + (2 * CircleArray[i].radius * CircleArray[i].dx) )/(CircleArray[j].radius+CircleArray[i].radius);
-				dy2 = (CircleArray[j].dy *(CircleArray[j].radius - CircleArray[i].radius) + (2 * CircleArray[i].radius * CircleArray[i].dy) )/(CircleArray[j].radius+CircleArray[i].radius);
-				CircleArray[j].dx = dx2;
-				CircleArray[j].dy = dy2;*/
-				/*
-				nx = (a-x)/2;
-				ny = (a-y)/2;
-				
-				CircleArray[i].x += nx;
-				CircleArray[j].x += ny;
-				CircleArray[i].y += nx;
-				CircleArray[j].y += ny;
-			
-				collb = 1;
-				}else{
-					collb = 0;
-				}
-			}else{
-			}
-			}catch{}
-		}
-	}
-
-animate();
-*/

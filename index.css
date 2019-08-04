@@ -3,10 +3,10 @@ body{
 }
 h1{
 	display: inline;
+	margin: 5px;
 }
 input{
 	margin: 5px;
-	margin-left: 0;
 }
 canvas{
 	display: block;
@@ -16,4 +16,7 @@ canvas{
 }
 #colorvar{
 	width: 80px;
+}
+#bubblenum{
+	width: 100px;
 }
