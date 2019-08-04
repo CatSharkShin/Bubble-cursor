@@ -5,4 +5,4 @@ Bubbles appear around the cursor and the user can customize them
   
   -The text in the Menu changes depending on the background color //It's the invert of the background color
   
-  JS Fiddle: https://jsfiddle.net/CatShark/h5o2qfsd/1/
+  JS Fiddle: https://jsfiddle.net/CatShark/h5o2qfsd/3/
