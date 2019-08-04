@@ -30,10 +30,11 @@ function foll(){
 }
 function whitebg(){
 	document.body.style.backgroundColor = 'white';
-	console.log("white");
+	document.body.style.color = "black";
 }
 function blackbg(){
 	document.body.style.backgroundColor = 'black';
+	document.body.style.color = "white";
 }
 function setbg(){	//BG and Text Color (text is backgrounds invert)
 	document.body.style.backgroundColor = document.getElementById('bgcolor').value;
