@@ -28,7 +28,7 @@ function foll(){
 	else follow=0;
 	console.log("F PUSHED");
 }
-function invertColor(hex) {
+function invertColor(hex) {		//Color inverter for the text to match the bgcolor
     if (hex.indexOf('#') === 0) {
         hex = hex.slice(1);
     }
@@ -160,11 +160,11 @@ yperc = (e.y/window.innerHeight);
 
 animate();
 
-setInterval(dcrlt, 100);
+setInterval(dcrlt, 100);	//Runs dcrlt every 100 milisecs~~
 function dcrlt(){
 	for(var i=0;i<CircleArray.length;i++){
 		try{
-			CircleArray[i].lt -= 0.1;
-		}catch{}
+			CircleArray[i].lt -= 0.1;			//Decreasing the circles
+		}catch{}								//lifetimes so they decay over time
 	}
 }
