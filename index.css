@@ -33,13 +33,19 @@ canvas{
 	background-color: rgba(255,255,255,0.5);
 	border-radius: 5px;
 	text-align: center;
+	border: solid 2px white;
 }
 input[type="button"]{
 	background-color: white;
 	font-weight: bold;
-	border: solid black 1px;
+	border: none;
 	padding: 5px;
 	border-radius: 5px;
+	border: solid 2px transparent;
+}
+input[type="button"]:hover{
+	cursor: pointer;
+	border-color: black;
 }
 input[type="number"]{
 	all: unset;
