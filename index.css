@@ -8,7 +8,7 @@ h1{
 	margin: 5px;
 }
 input{
-	margin-top: 20px;
+	margin-top: 15px;
 }
 canvas{
 	display: block;
@@ -41,6 +41,7 @@ input[type="button"]{
 }
 input[type="number"]{
 	all: unset;
+	color: black;
 	border-radius: 5px;
 	background-color: white;
 }
@@ -48,4 +49,5 @@ input[type="color"]{
 	border: none;
 	padding: 10px;
 	border-radius: 10px;
+	background-color: white;
 }

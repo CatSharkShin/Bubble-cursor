@@ -28,7 +28,21 @@ function foll(){
 	else follow=0;
 	console.log("F PUSHED");
 }
-function invertColor(hex) {		//Color inverter for the text to match the bgcolor
+function whitebg(){
+	document.body.style.backgroundColor = 'white';
+	console.log("white");
+}
+function blackbg(){
+	document.body.style.backgroundColor = 'black';
+}
+function setbg(){	//BG and Text Color (text is backgrounds invert)
+	document.body.style.backgroundColor = document.getElementById('bgcolor').value;
+	document.body.style.color = invertColor(document.getElementById('bgcolor').value);
+}
+
+
+	//Color inverter for the text to match the bgcolor
+function invertColor(hex) {		
     if (hex.indexOf('#') === 0) {
         hex = hex.slice(1);
     }
@@ -128,10 +142,19 @@ function animate(){		//Loop that updates and reads buttons
 	if(el){
 		el.addEventListener('click', foll, false);
 	}
-	if(document.getElementById('bgcolor')){
-		document.body.style.backgroundColor = document.getElementById('bgcolor').value;
-		document.body.style.color = invertColor(document.getElementById('bgcolor').value);
+	var el = document.getElementById('white');			//White background button
+	if(el){
+		el.addEventListener('click', whitebg, false);
 	}
+	var el = document.getElementById('black');			//Black background button
+	if(el){
+		el.addEventListener('click', blackbg, false);
+	}
+	var el = document.getElementById('set');			//Set button
+	if(el){
+		el.addEventListener('click', setbg, false);
+	}
+	
 }
 
 
