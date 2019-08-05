@@ -7,4 +7,4 @@ Bubbles appear around the cursor and the user can customize them
   
   -The bubbles bounce off walls
   
-  JS Fiddle: https://jsfiddle.net/CatShark/h5o2qfsd/3/
+  JS Fiddle: https://jsfiddle.net/CatShark/h5o2qfsd/4/
