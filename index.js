@@ -78,10 +78,6 @@ function Circle(x,y,dx,dy,radius,lt,maxlt){ // DX and DX are the steps the bubbl
 	this.lt = lt;	//the current lifetime
 	this.maxlt = maxlt; //the object's spawn lifetime
 	
-	this.getRadius = function(){
-		return this.radius;
-	}
-	
 	this.draw = function(){		//Draws out the circle
 		c.beginPath();
 		c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
